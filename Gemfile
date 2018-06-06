@@ -48,6 +48,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
 end
 
 
