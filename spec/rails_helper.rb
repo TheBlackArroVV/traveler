@@ -56,6 +56,13 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.before(:suite)              { DatabaseCleaner.clean_with(:truncation) }
+  config.before(:each)               { DatabaseCleaner.strategy = :transaction }
+  config.before(:each, js: true)     { DatabaseCleaner.strategy = :truncation }
+  config.before(:each, sphinx: true) { DatabaseCleaner.strategy = :deletion }
+  config.before(:each)               { DatabaseCleaner.start }
+  config.after(:each)                { DatabaseCleaner.clean }
 end
 
 Shoulda::Matchers.configure do |config|
