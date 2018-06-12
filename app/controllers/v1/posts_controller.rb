@@ -1,4 +1,5 @@
 class V1::PostsController < ApplicationController
+  before_action :authenticate
   before_action :set_post, only: [:show, :destroy, :update]
 
   def index
