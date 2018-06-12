@@ -7,7 +7,7 @@ Knock.setup do |config|
   ## last forever.
   ##
   ## Default:
-  # config.token_lifetime = 1.day
+  config.token_lifetime = 1.month
 
 
   ## Audience claim
@@ -29,14 +29,6 @@ Knock.setup do |config|
   ##
   ## Default:
   # config.token_signature_algorithm = 'HS256'
-
-  ## Signature key
-  ## -------------
-  ##
-  ## Configure the key used to sign tokens.
-  ##
-  ## Default:
-  # config.token_secret_signature_key = -> { Rails.application.secrets.secret_key_base }
 
   ## If using Auth0, uncomment the line below
   # config.token_secret_signature_key = -> { JWT.base64url_decode Rails.application.secrets.auth0_client_secret }
