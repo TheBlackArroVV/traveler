@@ -244,6 +244,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 5.2.0)
   rails-controller-testing
+  responders
   rspec-rails
   selenium-webdriver
   shoulda-matchers
