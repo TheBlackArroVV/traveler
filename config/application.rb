@@ -19,7 +19,6 @@ Bundler.require(*Rails.groups)
 
 module Traveler
   class Application < Rails::Application
-    # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
 
     # Initialize configuration defaults for originally generated Rails version.
@@ -31,7 +30,7 @@ module Traveler
        origins '*'
        resource '*', headers: :any, methods: [:get, :post, :patch, :delete, :options]
      end
-   end
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -42,5 +41,8 @@ module Traveler
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.session_store :cookie_store, key: '_interslice_session'
+    config.middleware.use ActionDispatch::Cookies # Required for all session management
+    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
   end
 end
