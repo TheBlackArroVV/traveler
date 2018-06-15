@@ -9,7 +9,7 @@ describe 'Posts API' do
   describe 'GET /index' do
     let!(:posts) { create_list(:post, 2) }
 
-    before { get '/v1/posts', params: { format: :json } }
+    before { get '/api/v1/posts', params: { format: :json } }
 
     it 'returns 200' do
       expect(response).to be_successful
@@ -29,7 +29,7 @@ describe 'Posts API' do
   describe 'GET /show' do
     let!(:post) { create :post, user: @user }
 
-    before { get '/v1/posts/', params: { format: :json, id: post.id } }
+    before { get '/api/v1/posts/', params: { format: :json, id: post.id } }
 
     it 'returns 200' do
       expect(response).to be_successful
@@ -45,7 +45,7 @@ describe 'Posts API' do
 
   describe 'POST /create' do
     context 'valid data' do
-      before { post '/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+      before { post '/api/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
 
       it 'returns 200' do
         expect(response).to be_successful
@@ -58,12 +58,12 @@ describe 'Posts API' do
       end
 
       it 'should save post to db' do
-        expect { post '/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }.to change(Post, :count).by(1)
+        expect { post '/api/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }.to change(Post, :count).by(1)
       end
     end
 
     context 'invalid data' do
-      before { post '/v1/posts', params: { format: :json, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+      before { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
 
       it 'returns 422' do
         expect(response.status).to be_eql(422)
@@ -76,7 +76,7 @@ describe 'Posts API' do
       end
 
       it 'shouldnot save post to db' do
-        expect { post '/v1/posts', params: { format: :json, post: { title: nil, body: nil } } }.to_not change(Post, :count)
+        expect { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil } } }.to_not change(Post, :count)
       end
     end
   end
@@ -85,7 +85,7 @@ describe 'Posts API' do
   describe 'DELETE /destroy' do
     let!(:post) { create :post, user: @user }
 
-    before { delete "/v1/posts/#{post.id}", params: { format: :json, user: @user }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+    before { delete "/api/v1/posts/#{post.id}", params: { format: :json, user: @user }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
 
     it 'returns 200' do
       expect(response).to be_successful
@@ -100,7 +100,7 @@ describe 'Posts API' do
     let!(:post) { create :post, user: @user }
 
     context 'valid data' do
-      before { patch "/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: 'NewTitle' } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: 'NewTitle' } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
 
       it 'returns 200' do
         expect(response).to be_successful
@@ -112,7 +112,7 @@ describe 'Posts API' do
     end
 
     context 'invalid data' do
-      before { patch "/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
 
       it 'returns 422' do
         expect(response.status).to be_eql(422)
