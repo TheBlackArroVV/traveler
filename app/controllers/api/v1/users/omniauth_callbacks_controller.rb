@@ -3,9 +3,8 @@ class Api::V1::Users::OmniauthCallbacksController < Devise::OmniauthCallbacksCon
     @user = User.find_for_oauth(request.env['omniauth.auth'])
 
     if @user
-      render json: @user
-    else
-      render json: @user.errors, status: 422
+      token = Knock::AuthToken.new(payload: { sub: @user.id }).token
+      redirect_to 'http://localhost:8080', params: { token: token }
     end
   end
 end
