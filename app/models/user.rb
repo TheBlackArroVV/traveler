@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   alias_method :authenticate, :valid_password?
 
+  has_one :profile
   has_many :posts
   has_many :authorizations
 

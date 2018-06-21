@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   it { should have_many :posts }
   it { should have_many :authorizations }
+  it { should have_one :profile }
 
   let!(:user) { create :user }
   let(:oauth) { OmniAuth::AuthHash.new(provider: 'google_oauth2', uid: '123456') }
