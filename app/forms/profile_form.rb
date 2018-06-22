@@ -1,13 +1,12 @@
 class ProfileForm
   include ActiveModel::Model
 
-  attr_accessor :user_id
-  attr_accessor :about
+  attr_accessor :user_id, :about, :avatar
 
   def initialize(params)
     self.user_id = params[:user_id]
     self.about = params[:about]
-    self.avatar
+    self.avatar = params[:avatar]
   end
 
   def save
