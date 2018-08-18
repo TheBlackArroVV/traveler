@@ -1,7 +1,6 @@
 module Api
   module V1
     class PostsController < ApplicationController
-      before_action :authenticate_user, only: %i[create update destroy]
       before_action :set_post, only: %i[show destroy update]
 
       def index

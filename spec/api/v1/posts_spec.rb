@@ -9,7 +9,7 @@ describe 'Posts API' do
   describe 'GET /index' do
     let!(:posts) { create_list(:post, 2) }
 
-    before { get '/api/v1/posts', params: { format: :json } }
+    before { get '/api/v1/posts', params: { format: :json }, headers: { 'Authorization': "Bearer #{@jwt}" } }
 
     it 'returns 200' do
       expect(response).to be_successful
@@ -29,7 +29,7 @@ describe 'Posts API' do
   describe 'GET /show' do
     let!(:post) { create :post, user: @user }
 
-    before { get '/api/v1/posts/', params: { format: :json, id: post.id } }
+    before { get '/api/v1/posts/', params: { format: :json, id: post.id }, headers: { 'Authorization': "Bearer #{@jwt}" } }
 
     it 'returns 200' do
       expect(response).to be_successful
@@ -75,7 +75,7 @@ describe 'Posts API' do
       end
 
       it 'shouldnot save post to db' do
-        expect { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil } } }.to_not change(Post, :count)
+        expect { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil }, headers: { 'Authorization': "Bearer #{@jwt}" } } }.to_not change(Post, :count)
       end
     end
   end
