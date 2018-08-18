@@ -6,6 +6,6 @@ class CreateAuthorizations < ActiveRecord::Migration[5.2]
       t.string :uid
     end
     add_index :authorizations, :user_id
-    add_index :authorizations, [:provider, :uid]
+    add_index :authorizations, %i[provider uid]
   end
 end

@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
     end
 
     context 'user do not exist' do
-      let(:oauth) { OmniAuth::AuthHash.new(provider: 'google_oauth2', uid: '123456', info: { email: "user@email.com" }) }
+      let(:oauth) { OmniAuth::AuthHash.new(provider: 'google_oauth2', uid: '123456', info: { email: 'user@email.com' }) }
 
       it 'creates new user' do
         expect { User.find_for_oauth(oauth) }.to change(User, :count).by(1)

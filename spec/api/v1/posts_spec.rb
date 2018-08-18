@@ -19,7 +19,7 @@ describe 'Posts API' do
       expect(response.body).to have_json_size(2)
     end
 
-    %w(id title body created_at updated_at).each do |attr|
+    %w[id title body created_at updated_at].each do |attr|
       it "post object contains #{attr}" do
         expect(response.body).to be_json_eql(posts.first.send(attr.to_sym).to_json).at_path("0/#{attr}")
       end
@@ -35,13 +35,12 @@ describe 'Posts API' do
       expect(response).to be_successful
     end
 
-    %w(id title body created_at updated_at).each do |attr|
+    %w[id title body created_at updated_at].each do |attr|
       it "post object contains #{attr}" do
         expect(response.body).to be_json_eql(post.send(attr.to_sym).to_json).at_path("0/#{attr}")
       end
     end
   end
-
 
   describe 'POST /create' do
     context 'valid data' do
@@ -51,25 +50,25 @@ describe 'Posts API' do
         expect(response).to be_successful
       end
 
-      %w(id title body created_at updated_at).each do |attr|
+      %w[id title body created_at updated_at].each do |attr|
         it "post object contains #{attr}" do
-          expect(response.body).to be_json_eql(Post.last.send(attr.to_sym).to_json).at_path("#{attr}")
+          expect(response.body).to be_json_eql(Post.last.send(attr.to_sym).to_json).at_path(attr.to_s)
         end
       end
 
       it 'should save post to db' do
-        expect { post '/api/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }.to change(Post, :count).by(1)
+        expect { post '/api/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" } }.to change(Post, :count).by(1)
       end
     end
 
     context 'invalid data' do
-      before { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+      before { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
 
       it 'returns 422' do
         expect(response.status).to be_eql(422)
       end
 
-      %w(title body).each do |attr|
+      %w[title body].each do |attr|
         it 'reutrns errors' do
           expect(response.body).to be_json_eql("can't be blank".to_json).at_path("#{attr}/0")
         end
@@ -81,11 +80,10 @@ describe 'Posts API' do
     end
   end
 
-
   describe 'DELETE /destroy' do
     let!(:post) { create :post, user: @user }
 
-    before { delete "/api/v1/posts/#{post.id}", params: { format: :json, user: @user }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+    before { delete "/api/v1/posts/#{post.id}", params: { format: :json, user: @user }, headers: { 'Authorization': "Bearer #{@jwt}" } }
 
     it 'returns 200' do
       expect(response).to be_successful
@@ -100,7 +98,7 @@ describe 'Posts API' do
     let!(:post) { create :post, user: @user }
 
     context 'valid data' do
-      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: 'NewTitle' } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: 'NewTitle' } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
 
       it 'returns 200' do
         expect(response).to be_successful
@@ -112,13 +110,13 @@ describe 'Posts API' do
     end
 
     context 'invalid data' do
-      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" }  }
+      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
 
       it 'returns 422' do
         expect(response.status).to be_eql(422)
       end
 
-      %w(title body).each do |attr|
+      %w[title body].each do |attr|
         it 'reutrns errors' do
           expect(response.body).to be_json_eql("can't be blank".to_json).at_path("#{attr}/0")
         end
