@@ -5,6 +5,7 @@ module Api
 
       def index
         posts = Post.all
+
         render json: posts
       end
 
@@ -15,15 +16,14 @@ module Api
       def create
         post = Post.new(post_params.merge(user: current_user))
         if post.save
-          render json: post, status: 200
+          render json: post, status: 201
         else
           render json: post.errors, status: 422
         end
       end
 
       def update
-        @post.update(post_params)
-        if @post.save
+        if @post.update(post_params)
           render json: @post, status: 200
         else
           render json: @post.errors, status: 422

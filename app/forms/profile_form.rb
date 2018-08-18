@@ -1,19 +1,17 @@
 class ProfileForm
-  attr_accessor :user_id, :about, :avatar, :errors
+  attr_accessor :errors
 
   def initialize(params)
-    self.user_id = params[:user_id]
-    self.about = params[:about]
-    self.avatar = params[:avatar]
+    self.params = params
     self.errors = []
   end
 
   def save
-    profile = Profile.new(user_id: user_id, about: about)
+    profile = Profile.new(params)
     if profile.save
       true
     else
-      errors.push(profile.errors)
+      @errors = profile.errors
       false
     end
   end
