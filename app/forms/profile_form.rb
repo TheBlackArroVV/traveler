@@ -1,18 +1,27 @@
 class ProfileForm
-  attr_accessor :params, :profile, :errors
+  include Virtus.model
+  include ActiveModel::Model
 
-  def initialize(params)
-    self.params = params
-    self.errors = []
-  end
+  attribute :about, String
+  attribute :avatar, String
+  attribute :user_id, Integer
+
+  validates :user_id, presence: true
+
+  attr_accessor :profile
 
   def save
-    @profile = Profile.new(params)
-    if @profile.save
+    if valid?
+      persist!
       true
     else
-      @errors = @profile.errors
       false
     end
+  end
+
+  private
+
+  def persist!
+    @profile = Profile.create!(user_id: user_id, about: about, avatar: avatar)
   end
 end

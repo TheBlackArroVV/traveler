@@ -9,14 +9,17 @@ RSpec.describe Api::V1::Users::ProfilesController, type: :controller do
 
   describe 'POST /create' do
     context 'valid data' do
-      before { post :create, params: { format: :json, profile: { about: 'about_me', avatar: 'avatar' } } }
 
       it 'returns 201' do
+        post :create, params: { format: :json, profile: { about: 'about_me', avatar: 'avatar' } }
+
         expect(response).to have_http_status(:created)
       end
 
       %w[id about avatar user_id].each do |attr|
         it "post object contains #{attr}" do
+          post :create, params: { format: :json, profile: { about: 'about_me', avatar: 'avatar' } }
+
           expect(response.body).to be_json_eql(Profile.last.send(attr.to_sym).to_json).at_path(attr.to_s)
         end
       end
