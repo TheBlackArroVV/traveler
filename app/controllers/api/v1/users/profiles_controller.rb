@@ -4,11 +4,8 @@ module Api
       class ProfilesController < ApplicationController
         def create
           form_object = ProfileForm.new(profile_params.merge(user_id: current_user.id))
-          if form_object.save
-            render json: form_object, status: 200
-          else
-            render json: form_object.errors, status: 422
-          end
+
+          render json: form_object.profile, status: 201 if form_object.save
         end
 
         private

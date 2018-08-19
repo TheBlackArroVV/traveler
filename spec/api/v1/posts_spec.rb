@@ -1,18 +1,19 @@
 require 'rails_helper'
 
-describe 'Posts API' do
+RSpec.describe Api::V1::PostsController, type: :controller do
   before do
     @user = create(:user)
     @jwt = Knock::AuthToken.new(payload: { sub: @user.id }).token
+    request.headers['Authorization'] = "Bearer #{@jwt}"
   end
 
   describe 'GET /index' do
     let!(:posts) { create_list(:post, 2) }
 
-    before { get '/api/v1/posts', params: { format: :json }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+    before { get :index, params: { format: :json } }
 
     it 'returns 200' do
-      expect(response).to be_successful
+      expect(response).to have_http_status(:ok)
     end
 
     it 'should return array' do
@@ -29,25 +30,25 @@ describe 'Posts API' do
   describe 'GET /show' do
     let!(:post) { create :post, user: @user }
 
-    before { get '/api/v1/posts/', params: { format: :json, id: post.id }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+    before { get :show, params: { format: :json, id: post.id } }
 
     it 'returns 200' do
-      expect(response).to be_successful
+      expect(response).to have_http_status(:ok)
     end
 
     %w[id title body created_at updated_at].each do |attr|
       it "post object contains #{attr}" do
-        expect(response.body).to be_json_eql(post.send(attr.to_sym).to_json).at_path("0/#{attr}")
+        expect(response.body).to be_json_eql(post.send(attr.to_sym).to_json).at_path("#{attr}")
       end
     end
   end
 
   describe 'POST /create' do
     context 'valid data' do
-      before { post '/api/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+      before { post :create, params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } } }
 
-      it 'returns 200' do
-        expect(response).to be_successful
+      it 'returns 201' do
+        expect(response).to have_http_status(:created)
       end
 
       %w[id title body created_at updated_at].each do |attr|
@@ -57,15 +58,15 @@ describe 'Posts API' do
       end
 
       it 'should save post to db' do
-        expect { post '/api/v1/posts', params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } }, headers: { 'Authorization': "Bearer #{@jwt}" } }.to change(Post, :count).by(1)
+        expect { post :create, params: { format: :json, post: { title: 'MyString', body: 'MyText', user: @user } } }.to change(Post, :count).by(1)
       end
     end
 
     context 'invalid data' do
-      before { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+      before { post :create, params: { format: :json, post: { title: nil, body: nil } } }
 
       it 'returns 422' do
-        expect(response.status).to be_eql(422)
+        expect(response).to have_http_status(422)
       end
 
       %w[title body].each do |attr|
@@ -75,7 +76,7 @@ describe 'Posts API' do
       end
 
       it 'shouldnot save post to db' do
-        expect { post '/api/v1/posts', params: { format: :json, post: { title: nil, body: nil }, headers: { 'Authorization': "Bearer #{@jwt}" } } }.to_not change(Post, :count)
+        expect { post :create, params: { format: :json, post: { title: nil, body: nil } } }.to_not change(Post, :count)
       end
     end
   end
@@ -83,10 +84,10 @@ describe 'Posts API' do
   describe 'DELETE /destroy' do
     let!(:post) { create :post, user: @user }
 
-    before { delete "/api/v1/posts/#{post.id}", params: { format: :json, user: @user }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+    before { delete :destroy, params: { format: :json, id: post.id } }
 
     it 'returns 200' do
-      expect(response).to be_successful
+      expect(response).to have_http_status(:ok)
     end
 
     it 'returns post' do
@@ -98,10 +99,10 @@ describe 'Posts API' do
     let!(:post) { create :post, user: @user }
 
     context 'valid data' do
-      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: 'NewTitle' } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+      before { patch :update, params: { format: :json, id: post.id, post: { title: 'NewTitle' } } }
 
       it 'returns 200' do
-        expect(response).to be_successful
+        expect(response).to have_http_status(:ok)
       end
 
       it 'should return new title' do
@@ -110,10 +111,10 @@ describe 'Posts API' do
     end
 
     context 'invalid data' do
-      before { patch "/api/v1/posts/#{post.id}", params: { format: :json, user: @user, post: { title: nil, body: nil } }, headers: { 'Authorization': "Bearer #{@jwt}" } }
+      before { patch :update, params: { format: :json, id: post.id, post: { title: nil, body: nil } } }
 
       it 'returns 422' do
-        expect(response.status).to be_eql(422)
+        expect(response).to have_http_status(422)
       end
 
       %w[title body].each do |attr|
