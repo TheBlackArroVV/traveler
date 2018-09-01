@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :posts
   has_many :authorizations
 
+  validates :phone_number, numericality: { only_integer: true }, allow_blank: true
+
   def self.find_for_oauth(oauth)
     authorization = Authorization.find_by(provider: oauth[:provider], uid: oauth[:uid].to_s)
     return authorization.user if authorization

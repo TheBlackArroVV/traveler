@@ -38,7 +38,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
     %w[id title body].each do |attr|
       it "post object contains #{attr}" do
-        expect(response.body).to be_json_eql(post.send(attr.to_sym).to_json).at_path("#{attr}")
+        expect(response.body).to be_json_eql(post.send(attr.to_sym).to_json).at_path(attr.to_s)
       end
     end
   end

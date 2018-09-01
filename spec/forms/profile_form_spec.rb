@@ -9,7 +9,6 @@ RSpec.describe ProfileForm do
     end
 
     it 'should be valid' do
-
     end
   end
 end

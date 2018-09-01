@@ -9,7 +9,6 @@ RSpec.describe Api::V1::Users::ProfilesController, type: :controller do
 
   describe 'POST /create' do
     context 'valid data' do
-
       it 'returns 201' do
         post :create, params: { format: :json, profile: { about: 'about_me', avatar: 'avatar' } }
 
