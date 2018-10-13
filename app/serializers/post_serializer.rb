@@ -1,3 +1,3 @@
 class PostSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :user_id, :created_at, :updated_at
+  attributes(*Post.attribute_names.map(&:to_sym) - %i[created_at updated_at])
 end

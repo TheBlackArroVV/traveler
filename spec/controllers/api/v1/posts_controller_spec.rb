@@ -21,7 +21,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         expect(response.body).to have_json_size(2)
       end
 
-      %w[id title body created_at updated_at].each do |attr|
+      %w[id title body].each do |attr|
         it "post object contains #{attr}" do
           expect(response.body).to be_json_eql(posts.first.send(attr.to_sym).to_json).at_path("0/#{attr}")
         end
@@ -37,7 +37,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      %w[id title body created_at updated_at].each do |attr|
+      %w[id title body].each do |attr|
         it "post object contains #{attr}" do
           expect(response.body).to be_json_eql(post.send(attr.to_sym).to_json).at_path(attr.to_s)
         end
@@ -46,13 +46,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
     context 'POST /create' do
       context 'valid data' do
-        before { post :create, params: { format: :json, post: { title: 'MyString', body: 'MyText' } }, session: { 'user_id' => @user.id } }
+        before { post :create, params: { format: :json, post: { title: 'MyString', body: 'MyText' } } }
 
         it 'returns 200' do
           expect(response).to be_successful
         end
 
-        %w[id title body created_at updated_at].each do |attr|
+        %w[id title body].each do |attr|
           it "post object contains #{attr}" do
             expect(response.body).to be_json_eql(Post.last.send(attr.to_sym).to_json).at_path(attr.to_s)
           end
