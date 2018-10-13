@@ -1,12 +1,11 @@
 module Api
   module V1
     class PostsController < ApplicationController
-      before_action :authenticate_user, only: %i[create update destroy]
       before_action :set_post, only: %i[show destroy update]
 
       def index
-        @posts = Post.all
-        render json: @posts
+        posts = Post.all
+        render json: posts
       end
 
       def show
@@ -14,18 +13,16 @@ module Api
       end
 
       def create
-        @post = Post.new(post_params)
-        @post.user = current_user
-        if @post.save
-          render json: @post, status: 200
+        post = Post.new(post_params.merge(user: current_user))
+        if post.save
+          render json: post, status: 200
         else
-          render json: @post.errors, status: 422
+          render json: post.errors, status: 422
         end
       end
 
       def update
-        @post.update(post_params)
-        if @post.save
+        if @post.update(post_params)
           render json: @post, status: 200
         else
           render json: @post.errors, status: 422

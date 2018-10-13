@@ -1,8 +1,6 @@
-require 'application_responder'
-
 class ApplicationController < ActionController::API
-  self.responder = ApplicationResponder
-  respond_to :json
+  before_action :authenticate_user
+
 
   include Knock::Authenticable
 end
