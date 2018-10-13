@@ -23,19 +23,19 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
 gem 'active_model_serializers'
-gem 'rack-cors', require: 'rack/cors'
-gem 'knock'
+gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise'
+gem 'knock'
+gem 'rack-cors', require: 'rack/cors'
 gem 'responders'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'rspec-rails'
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'pry'
+  gem 'rspec-rails'
 end
 
 group :development do
@@ -47,14 +47,13 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'selenium-webdriver'
   gem 'chromedriver-helper'
-  gem 'shoulda-matchers'
+  gem 'database_cleaner'
   gem 'json_spec'
   gem 'rails-controller-testing'
-  gem 'database_cleaner'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers'
 end
 
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
