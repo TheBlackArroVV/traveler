@@ -1,15 +1,17 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      devise_for :users, controllers: { omniauth_callbacks: 'api/v1/users/omniauth_callbacks' }
+      devise_for :users
       resources :posts do
         resources :images, only: [] do
           post :upload, on: :collection
         end
       end
+
       namespace :users do
         resources :profiles, only: :create
       end
+
       post :user_token, to: 'users/user_token#create'
     end
   end

@@ -2,6 +2,6 @@ FactoryBot.define do
   factory :post do
     title 'MyString'
     body 'MyString'
-    user
+    association :user, factory: :user
   end
 end

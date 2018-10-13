@@ -14,14 +14,6 @@ ActiveRecord::Schema.define(version: 20_181_013_120_129) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
-  create_table 'authorizations', force: :cascade do |t|
-    t.integer 'user_id'
-    t.string 'provider'
-    t.string 'uid'
-    t.index %w[provider uid], name: 'index_authorizations_on_provider_and_uid'
-    t.index ['user_id'], name: 'index_authorizations_on_user_id'
-  end
-
   create_table 'images', force: :cascade do |t|
     t.string 'image'
     t.bigint 'post_id'

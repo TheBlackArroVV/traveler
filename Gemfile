@@ -13,12 +13,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'carrierwave'
 gem 'devise'
 gem 'knock'
-gem 'omniauth'
-gem 'omniauth-facebook'
-gem 'omniauth-google-oauth2'
 gem 'puma', '~> 3.11'
 gem 'rack-cors', require: 'rack/cors'
-gem 'responders'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
