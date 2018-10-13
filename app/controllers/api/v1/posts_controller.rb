@@ -14,7 +14,7 @@ module Api
       end
 
       def create
-        post = Post.new(post_params)
+        post = Post.new(post_params.merge(user: current_user))
         if post.save
           render json: post, status: 200
         else
@@ -23,8 +23,7 @@ module Api
       end
 
       def update
-        @post.update(post_params)
-        if @post.save
+        if @post.update(post_params)
           render json: @post, status: 200
         else
           render json: @post.errors, status: 422
@@ -32,7 +31,7 @@ module Api
       end
 
       def destroy
-        render json: {}, status: 200
+        render json: @post.destroy, status: 200
       end
 
       private
