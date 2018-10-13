@@ -1,0 +1,24 @@
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+  - "**/*_spec.rb"
+  - "**/*_docs.rb"
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Exclude:
+  - "**/*_spec.rb"
+  - "**/*_docs.rb"
+
+Metrics/BlockLength:
+  Exclude:
+  - "**/*_spec.rb"
+  - "**/*_docs.rb"
