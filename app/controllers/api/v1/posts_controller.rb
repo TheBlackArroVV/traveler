@@ -5,6 +5,7 @@ module Api
 
       def index
         posts = Post.all
+
         render json: posts
       end
 
