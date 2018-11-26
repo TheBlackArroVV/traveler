@@ -22,3 +22,7 @@ Metrics/BlockLength:
   Exclude:
   - "**/*_spec.rb"
   - "**/*_docs.rb"
+
+require: rubocop-rspec
+RSpec/NestedGroups:
+  Max: 5
