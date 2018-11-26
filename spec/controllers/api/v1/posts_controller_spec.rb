@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::PostsController, type: :controller do
-  context 'Posts API' do
+  context 'when posts' do
+    let(:user) { create :user }
+    let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
+
     before do
-      @user = create(:user)
-      @jwt = Knock::AuthToken.new(payload: { sub: @user.id }).token
-      request.headers['Authorization'] = "Bearer #{@jwt}"
+      request.headers['Authorization'] = "Bearer #{jwt}"
     end
 
     describe 'GET /index' do
@@ -17,7 +18,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'should return array' do
+      it 'returns array' do
         expect(response.body).to have_json_size(2)
       end
 
@@ -44,9 +45,9 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       end
     end
 
-    context 'POST /create' do
-      context 'valid data' do
-        before { post :create, params: { format: :json, post: { title: 'MyString', body: 'MyText' } } }
+    context 'when POST /create' do
+      context 'when valid data' do
+        before { post :create, params: { post: { title: 'MyString', body: 'MyText' } } }
 
         it 'returns 200' do
           expect(response).to be_successful
@@ -58,12 +59,12 @@ RSpec.describe Api::V1::PostsController, type: :controller do
           end
         end
 
-        it 'should save post to db' do
-          expect { post 'create', params: { format: :json, post: { title: 'MyString', body: 'MyText' } } }.to change(Post, :count).by(1)
+        it 'saves post to db' do
+          expect { post 'create', params: { post: { title: 'MyString', body: 'MyText' } } }.to change(Post, :count).by(1)
         end
       end
 
-      context 'invalid data' do
+      context 'when invalid data' do
         before { post :create, params: { format: :json, post: { title: nil, body: nil } } }
 
         it 'returns 422' do
@@ -76,8 +77,8 @@ RSpec.describe Api::V1::PostsController, type: :controller do
           end
         end
 
-        it 'should not save post to db' do
-          expect { post 'create', params: { format: :json, post: { title: nil, body: nil } } }.to_not change(Post, :count)
+        it 'does not save post to db' do
+          expect { post 'create', params: { format: :json, post: { title: nil, body: nil } } }.not_to change(Post, :count)
         end
       end
     end
@@ -95,19 +96,19 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     describe 'PATCH /update' do
       let!(:post) { create :post }
 
-      context 'valid data' do
+      context 'when valid data' do
         before { patch :update, params: { format: :json, id: post.id, post: { title: 'NewTitle' } } }
 
         it 'returns 200' do
           expect(response).to have_http_status(:ok)
         end
 
-        it 'should return new title' do
+        it 'returns new title' do
           expect(response.body).to be_json_eql('NewTitle'.to_json).at_path('title')
         end
       end
 
-      context 'invalid data' do
+      context 'when invalid data' do
         before { patch :update, params: { format: :json, id: post.id, post: { title: nil, body: nil } } }
 
         it 'returns 422' do

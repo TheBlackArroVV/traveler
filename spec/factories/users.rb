@@ -3,6 +3,6 @@ FactoryBot.define do
 
   factory :user do
     email
-    password 'password'
+    password { 'password' }
   end
 end
