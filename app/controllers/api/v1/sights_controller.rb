@@ -38,6 +38,8 @@ module Api
       private
 
       def upload_images
+        return unless sight_images[:images]
+
         sight_images[:images].each do |image|
           @sight.images.create(image: image)
         end

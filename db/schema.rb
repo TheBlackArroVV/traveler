@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_181_127_142_001) do
+ActiveRecord::Schema.define(version: 20_181_127_160_336) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 20_181_127_142_001) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['sight_id'], name: 'index_images_on_sight_id'
+  end
+
+  create_table 'messages', force: :cascade do |t|
+    t.string 'text'
+    t.bigint 'user_id'
+    t.bigint 'topic_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['topic_id'], name: 'index_messages_on_topic_id'
+    t.index ['user_id'], name: 'index_messages_on_user_id'
   end
 
   create_table 'posts', force: :cascade do |t|
@@ -61,6 +71,15 @@ ActiveRecord::Schema.define(version: 20_181_127_142_001) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['city_id'], name: 'index_sights_on_city_id'
+  end
+
+  create_table 'topics', force: :cascade do |t|
+    t.string 'title'
+    t.string 'description'
+    t.bigint 'user_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_topics_on_user_id'
   end
 
   create_table 'users', force: :cascade do |t|
