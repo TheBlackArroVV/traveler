@@ -41,15 +41,15 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
   context 'when destroy' do
     let!(:topic) { create :topic }
 
-    context 'returns 200' do
+    context 'when returns 200' do
       before { delete :destroy, params: { id: topic.id } }
 
       it { expect(response).to have_http_status(:ok) }
     end
 
-    context 'change topics count' do
+    context 'when  change topics count' do
       it 'change topic count' do
-        expect { delete :destroy, params: { id: topic.id } }.to change { Topic.count }.by(-1)
+        expect { delete :destroy, params: { id: topic.id } }.to change(Topic, :count).by(-1)
       end
     end
   end

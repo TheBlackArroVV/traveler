@@ -34,7 +34,7 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     it { expect(response).to have_http_status(:created) }
 
     it 'change message count' do
-      expect { post :create, params: message_params }.to change { Message.count }.by(1)
+      expect { post :create, params: message_params }.to change(Message, :count).by(1)
     end
   end
 end
