@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       resources :cities, only: :index
 
       resources :sights
+
+      resources :topics, except: :update
       post :user_token, to: 'users/user_token#create'
     end
   end
