@@ -10,9 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_180_820_102_114) do
+ActiveRecord::Schema.define(version: 20_181_127_142_001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
+
+  create_table 'cities', force: :cascade do |t|
+    t.string 'name'
+    t.bigint 'country_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['country_id'], name: 'index_cities_on_country_id'
+  end
+
+  create_table 'countries', force: :cascade do |t|
+    t.string 'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'images', force: :cascade do |t|
+    t.string 'image'
+    t.bigint 'sight_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['sight_id'], name: 'index_images_on_sight_id'
+  end
 
   create_table 'posts', force: :cascade do |t|
     t.string 'title'
@@ -30,6 +52,15 @@ ActiveRecord::Schema.define(version: 20_180_820_102_114) do
     t.string 'about'
     t.string 'avatar'
     t.index ['user_id'], name: 'index_profiles_on_user_id'
+  end
+
+  create_table 'sights', force: :cascade do |t|
+    t.string 'name'
+    t.string 'description'
+    t.bigint 'city_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['city_id'], name: 'index_sights_on_city_id'
   end
 
   create_table 'users', force: :cascade do |t|
