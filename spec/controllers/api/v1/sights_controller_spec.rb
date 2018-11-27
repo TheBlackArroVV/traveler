@@ -60,8 +60,8 @@ RSpec.describe Api::V1::SightsController, type: :controller do
     let!(:sight) { create :sight, city: city }
 
     context 'when change count' do
-      it 'should change count' do
-        expect { delete :destroy, params: { id: sight.id } }.to change { Sight.count }.by(-1)
+      it 'changes count' do
+        expect { delete :destroy, params: { id: sight.id } }.to change(Sight, :count).by(-1)
       end
     end
 
@@ -75,6 +75,7 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   context 'when update' do
     let(:update_params) { { name: 'NewSightName' } }
     let!(:sight) { create :sight, city: city }
+
     before { patch :update, params: { id: sight.id, sight: update_params } }
 
     it { expect(response).to have_http_status(:ok) }
