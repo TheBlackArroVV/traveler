@@ -8,12 +8,14 @@ module Api
       end
 
       def create
-        sight = Sight.new(sight_params)
+        @sight = Sight.new(sight_params)
 
-        if sight.save
-          render json: sight, status: 201
+        if @sight.save
+          upload_images
+
+          render json: @sight, status: 201
         else
-          render json: sight.errors, status: 422
+          render json: @sight.errors, status: 422
         end
       end
 
@@ -35,12 +37,22 @@ module Api
 
       private
 
+      def upload_images
+        sight_images[:images].each do |image|
+          @sight.images.create(image: image)
+        end
+      end
+
       def set_sight
         @sight = Sight.find(params[:id])
       end
 
       def sight_params
         params.require(:sight).permit(:name, :description, :city_id)
+      end
+
+      def sight_images
+        params.require(:sight).permit(images: [])
       end
     end
   end
