@@ -4,7 +4,9 @@ Rails.application.routes.draw do
       devise_for :users
       resources :posts
       namespace :users do
-        resources :profiles, only: :create
+        resources :profiles, only: %i[index] do
+          patch :update, on: :collection
+        end
       end
       resources :countries, only: :index
       resources :cities, only: :index

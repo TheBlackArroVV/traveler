@@ -2,10 +2,14 @@ module Api
   module V1
     module Users
       class ProfilesController < ApplicationController
-        def create
+        def index
+          render json: current_user.profile
+        end
+
+        def update
           form_object = ProfileForm.new(profile_params.merge(user_id: current_user.id))
 
-          render json: form_object.profile, status: 201 if form_object.save
+          render json: form_object.profile if form_object.save
         end
 
         private
