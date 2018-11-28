@@ -22,6 +22,7 @@ class ProfileForm
   private
 
   def persist!
-    @profile = Profile.create!(user_id: user_id, about: about, avatar: avatar)
+    @profile = Profile.find_by(user_id: user_id)
+    @profile.update(user_id: user_id, about: about, avatar: avatar)
   end
 end
