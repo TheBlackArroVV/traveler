@@ -1,0 +1,9 @@
+development:
+  cloud_name: "cloudusers"
+  api_key: "416814697164114"
+  api_secret: "0ERd5zLvJ7PtXbDpr8HjarI6hb4"
+
+production:
+  cloud_name: "cloudusers"
+  api_key: "416814697164114"
+  api_secret: "0ERd5zLvJ7PtXbDpr8HjarI6hb4"
