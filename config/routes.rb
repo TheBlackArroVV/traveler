@@ -11,7 +11,13 @@ Rails.application.routes.draw do
       resources :countries, only: :index
       resources :cities, only: :index
 
-      resources :sights
+      resources :sights do
+        member do
+          patch :like, :dislike
+        end
+
+        get :liked, on: :collection
+      end
 
       resources :topics, except: :update do
         resources :messages
