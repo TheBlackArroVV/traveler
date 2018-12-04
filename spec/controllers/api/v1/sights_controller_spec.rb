@@ -121,16 +121,15 @@ RSpec.describe Api::V1::SightsController, type: :controller do
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'should be eql in length' do
+    it 'is eql in length' do
       data = JSON.parse(response.body)
 
       expect(data.length).to eq(sights.length)
 
       data.each_with_index do |sight, index|
         expect(sights[index].id).to eq(sight['id'])
-        expect(sight['id']).to_not eq(unliked_sight.id)
+        expect(sight['id']).not_to eq(unliked_sight.id)
       end
-
     end
   end
 end
