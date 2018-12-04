@@ -16,7 +16,9 @@ Rails.application.routes.draw do
           patch :like, :dislike
         end
 
-        get :liked, on: :collection
+        collection do
+          get :liked, :recommended
+        end
       end
 
       resources :topics, except: :update do
