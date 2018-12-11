@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   alias authenticate valid_password?
 
+  recommends :sights
+
   has_one :profile, dependent: :destroy
   has_many :posts
 

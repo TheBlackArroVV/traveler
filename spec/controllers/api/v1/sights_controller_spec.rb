@@ -86,4 +86,50 @@ RSpec.describe Api::V1::SightsController, type: :controller do
       expect(data['name']).to eq(update_params[:name])
     end
   end
+
+  context 'when like' do
+    let(:sight) { create :sight }
+
+    it 'change sight count' do
+      expect do
+        patch :like, params: { id: sight.id }
+      end.to change { user.liked_sights.count }.by(1)
+    end
+  end
+
+  context 'when dislike' do
+    let(:sight) { create :sight }
+
+    it 'change sight count' do
+      expect do
+        patch :dislike, params: { id: sight.id }
+      end.to change { user.disliked_sights.count }.by(1)
+    end
+  end
+
+  context 'when liked' do
+    let(:sights) { create_list :sight, 5 }
+    let(:unliked_sight) { create :sight }
+
+    before do
+      sights.each do |sight|
+        user.like(sight)
+      end
+
+      get :liked
+    end
+
+    it { expect(response).to have_http_status(:ok) }
+
+    it 'is eql in length' do
+      data = JSON.parse(response.body)
+
+      expect(data.length).to eq(sights.length)
+
+      data.each_with_index do |sight, index|
+        expect(sights[index].id).to eq(sight['id'])
+        expect(sight['id']).not_to eq(unliked_sight.id)
+      end
+    end
+  end
 end

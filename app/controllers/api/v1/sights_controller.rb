@@ -1,7 +1,7 @@
 module Api
   module V1
     class SightsController < ApplicationController
-      before_action :set_sight, only: %i[show update destroy]
+      before_action :set_sight, except: %i[index create liked recommended]
 
       def index
         render json: Sight.all
@@ -33,6 +33,26 @@ module Api
         @sight.destroy
 
         render json: {}
+      end
+
+      def like
+        current_user.like(@sight)
+
+        render json: {}
+      end
+
+      def dislike
+        current_user.dislike(@sight)
+
+        render json: {}
+      end
+
+      def liked
+        render json: current_user.liked_sights
+      end
+
+      def recommended
+        render json: current_user.recommended_sights
       end
 
       private
