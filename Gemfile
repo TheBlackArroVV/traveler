@@ -41,6 +41,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
+  gem 'dox', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

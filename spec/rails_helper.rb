@@ -3,7 +3,10 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'dox'
 ActiveRecord::Migration.maintain_test_schema!
+
+Dir[Rails.root.join('spec/api_doc/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
@@ -20,6 +23,11 @@ RSpec.configure do |config|
   config.before               { DatabaseCleaner.strategy = :transaction }
   config.before               { DatabaseCleaner.start }
   config.after                { DatabaseCleaner.clean }
+
+  config.after(:each, :dox) do |example|
+    example.metadata[:request] = request
+    example.metadata[:response] = response
+  end
 end
 
 Shoulda::Matchers.configure do |config|

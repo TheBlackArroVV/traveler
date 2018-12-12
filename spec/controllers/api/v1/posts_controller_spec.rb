@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::PostsController, type: :controller do
+  include ApiDoc::V1::Posts::Api
   context 'when posts' do
     let(:user) { create :user }
     let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
@@ -30,11 +31,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     describe 'GET /show' do
+      include ApiDoc::V1::Posts::Show
+
       let(:post) { create :post }
 
       before { get :show, params: { format: :json, id: post.id } }
 
-      it 'returns 200' do
+      it 'returns 200', :dox do
         expect(response).to have_http_status(:ok)
       end
 
