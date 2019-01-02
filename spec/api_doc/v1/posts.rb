@@ -10,8 +10,24 @@ module ApiDoc
         end
       end
 
+      document :index do
+        action 'Get a posts'
+      end
+
       document :show do
         action 'Get a post'
+      end
+
+      document :create do
+        action 'Create a post'
+      end
+
+      document :update do
+        action 'Update a post'
+      end
+
+      document :destroy do
+        action 'Delete a post'
       end
     end
   end

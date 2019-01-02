@@ -11,11 +11,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     describe 'GET /index' do
+      include ApiDoc::V1::Posts::Index
+
       let!(:posts) { create_list(:post, 2) }
 
       before { get :index, params: { format: :json } }
 
-      it 'returns 200' do
+      it 'returns 200', :dox do
         expect(response).to have_http_status(:ok)
       end
 
@@ -49,10 +51,12 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     context 'when POST /create' do
+      include ApiDoc::V1::Posts::Create
+
       context 'when valid data' do
         before { post :create, params: { post: { title: 'MyString', body: 'MyText' } } }
 
-        it 'returns 200' do
+        it 'returns 200', :dox do
           expect(response).to be_successful
         end
 
@@ -87,22 +91,26 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     describe 'DELETE /destroy' do
+      include ApiDoc::V1::Posts::Destroy
+
       let!(:post) { create :post }
 
       before { delete :destroy, params: { format: :json, id: post.id } }
 
-      it 'returns 200' do
+      it 'returns 200', :dox do
         expect(response).to have_http_status(:ok)
       end
     end
 
     describe 'PATCH /update' do
+      include ApiDoc::V1::Posts::Update
+
       let!(:post) { create :post }
 
       context 'when valid data' do
         before { patch :update, params: { format: :json, id: post.id, post: { title: 'NewTitle' } } }
 
-        it 'returns 200' do
+        it 'returns 200', :dox do
           expect(response).to have_http_status(:ok)
         end
 
