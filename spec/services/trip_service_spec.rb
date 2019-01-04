@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TripService do
   let(:user) { create :user }
-  let(:service) { TripService.new(trip_service_params) }
+  let(:service) { described_class.new(trip_service_params) }
 
   context 'when create' do
     let(:city) { create :city }
@@ -35,7 +35,7 @@ RSpec.describe TripService do
 
   context 'when join' do
     let(:trip) { create :trip }
-    let(:service) { TripService.new(user, trip) }
+    let(:service) { described_class.new(user, trip) }
 
     it 'change members count if available' do
       expect { service.join }.to change(Membership, :count).by(1)
