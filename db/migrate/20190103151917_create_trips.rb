@@ -5,6 +5,7 @@ class CreateTrips < ActiveRecord::Migration[5.2]
       t.string :budget
       t.integer :max_members
       t.belongs_to :city
+      t.belongs_to :user
 
       t.timestamps
     end

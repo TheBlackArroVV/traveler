@@ -25,6 +25,10 @@ Rails.application.routes.draw do
         resources :messages
       end
 
+      resources :trips do
+        patch :join, on: :member
+      end
+
       post :user_token, to: 'users/user_token#create'
     end
   end
