@@ -2,18 +2,17 @@ module Api
   module V1
     class TripsController < ApplicationController
       before_action :set_trip, except: %i[index create]
+      before_action :set_trip_service, only: %i[create join]
 
       def index
         render json: Trip.all
       end
 
       def create
-        trip = Trip.new(trip_params.merge(user: current_user))
-
-        if trip.save
-          render json: trip, status: 201
+        if @service.create(trip_params)
+          render json: @service.trip, status: 201
         else
-          render json: trip.errors
+          render json: @service.errors
         end
       end
 
@@ -22,12 +21,10 @@ module Api
       end
 
       def join
-        service = TripService.new(@trip, current_user)
-
-        if service.join
+        if @service.join
           render json: {}
         else
-          render json: service.errors
+          render json: @service.errors
         end
       end
 
@@ -53,6 +50,10 @@ module Api
 
       def trip_params
         params.require(:trip).permit(:description, :budget, :max_members, :city_id)
+      end
+
+      def set_trip_service
+        @service = TripService.new(current_user, @trip)
       end
     end
   end
