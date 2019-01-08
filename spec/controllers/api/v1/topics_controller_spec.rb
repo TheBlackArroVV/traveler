@@ -39,7 +39,7 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
   end
 
   context 'when destroy' do
-    let!(:topic) { create :topic }
+    let!(:topic) { create :topic, user: user }
 
     context 'when returns 200' do
       before { delete :destroy, params: { id: topic.id } }

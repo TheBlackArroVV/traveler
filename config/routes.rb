@@ -3,12 +3,14 @@ Rails.application.routes.draw do
     namespace :v1 do
       devise_for :users
       resources :posts
+
       namespace :users do
-        resources :profiles, only: %i[index] do
+        resources :profiles, only: :index do
           patch :update, on: :collection
         end
       end
       resources :countries, only: :index
+
       resources :cities, only: :index
 
       resources :sights do
@@ -23,6 +25,10 @@ Rails.application.routes.draw do
 
       resources :topics, except: :update do
         resources :messages
+      end
+
+      resources :trips do
+        patch :join, on: :member
       end
 
       post :user_token, to: 'users/user_token#create'

@@ -22,6 +22,8 @@ module Api
       end
 
       def destroy
+        authorize @topic
+
         @topic.destroy
         render json: {}
       end
