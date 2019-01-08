@@ -84,7 +84,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     describe 'DELETE /destroy' do
-      let!(:post) { create :post }
+      let!(:post) { create :post, user: user }
 
       before { delete :destroy, params: { format: :json, id: post.id } }
 
@@ -94,7 +94,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     describe 'PATCH /update' do
-      let!(:post) { create :post }
+      let!(:post) { create :post, user: user }
 
       context 'when valid data' do
         before { patch :update, params: { format: :json, id: post.id, post: { title: 'NewTitle' } } }

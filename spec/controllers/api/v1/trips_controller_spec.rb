@@ -88,7 +88,7 @@ RSpec.describe Api::V1::TripsController, type: :controller do
   end
 
   context 'when update' do
-    let!(:trip) { create :trip }
+    let!(:trip) { create :trip, user: user }
 
     before { patch :update, params: { id: trip.id, trip: { description: 'new_description' } } }
 

@@ -16,6 +16,7 @@ gem 'cloudinary'
 gem 'devise'
 gem 'knock'
 gem 'puma', '~> 3.11'
+gem 'pundit'
 gem 'rack-cors', require: 'rack/cors'
 
 group :development, :test do

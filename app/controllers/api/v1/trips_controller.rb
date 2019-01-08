@@ -29,6 +29,8 @@ module Api
       end
 
       def update
+        authorize @trip
+
         if @trip.update(trip_params)
           render json: @trip
         else
