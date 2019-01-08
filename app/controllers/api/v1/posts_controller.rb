@@ -23,6 +23,8 @@ module Api
       end
 
       def update
+        authorize @post
+
         if @post.update(post_params)
           render json: @post, status: 200
         else
@@ -31,6 +33,8 @@ module Api
       end
 
       def destroy
+        authorize @post
+
         render json: @post.destroy, status: 200
       end
 
