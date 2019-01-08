@@ -17,6 +17,7 @@ gem 'devise'
 gem 'knock'
 gem 'puma', '~> 3.11'
 gem 'rack-cors', require: 'rack/cors'
+gem 'pundit'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
