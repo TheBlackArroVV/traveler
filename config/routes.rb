@@ -3,12 +3,14 @@ Rails.application.routes.draw do
     namespace :v1 do
       devise_for :users
       resources :posts
+
       namespace :users do
-        resources :profiles, only: %i[index] do
+        resources :profiles, only: :index do
           patch :update, on: :collection
         end
       end
       resources :countries, only: :index
+
       resources :cities, only: :index
 
       resources :sights do

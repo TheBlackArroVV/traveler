@@ -1,7 +1,4 @@
-class ProfileForm
-  include Virtus.model
-  include ActiveModel::Model
-
+class ProfileForm < BaseForm
   attribute :about, String
   attribute :avatar, String
   attribute :user_id, Integer
