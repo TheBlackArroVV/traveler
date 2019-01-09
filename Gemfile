@@ -38,11 +38,11 @@ group :test do
   gem 'capybara'
   gem 'chromedriver-helper'
   gem 'database_cleaner'
+  gem 'dox', require: false
   gem 'json_spec'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
-  gem 'dox', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
