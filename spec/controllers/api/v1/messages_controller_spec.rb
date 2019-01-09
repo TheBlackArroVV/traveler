@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::MessagesController, type: :controller do
+  include ApiDoc::V1::Messages::Api
+
   let(:user) { create :user }
   let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
 
@@ -9,6 +11,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
   end
 
   context 'when index' do
+    include ApiDoc::V1::Messages::Index
+
     let(:topic) { create :topic }
     let(:messages) { create_list :message, 5, topic: topic }
 
@@ -26,6 +30,8 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
   end
 
   context 'when create' do
+    include ApiDoc::V1::Messages::Create
+
     let(:topic) { create :topic }
     let(:message_params) { { topic_id: topic.id, message: { text: 'text' } } }
 
