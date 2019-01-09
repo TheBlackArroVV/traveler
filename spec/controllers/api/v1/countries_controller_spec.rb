@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CountriesController, type: :controller do
+  include ApiDoc::V1::Countries::Api
+
   context 'when index' do
+    include ApiDoc::V1::Countries::Index
+
     let(:user) { create :user }
     let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
     let!(:countries) { create_list :country, 5 }
@@ -14,7 +18,7 @@ RSpec.describe Api::V1::CountriesController, type: :controller do
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'is eql countries' do
+    it 'is eql countries', :dox do
       data = JSON.parse(response.body)
 
       data.each do |country|
