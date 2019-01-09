@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::Users::ProfilesController, type: :controller do
+  include ApiDoc::V1::Profiles::Api
+
   let(:user) { create :user }
   let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
 
@@ -9,11 +11,13 @@ RSpec.describe Api::V1::Users::ProfilesController, type: :controller do
   end
 
   context 'when index' do
+    include ApiDoc::V1::Posts::Index
+
     before { get :index }
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'is eql user profile' do
+    it 'is eql user profile', :dox do
       data = JSON.parse(response.body)
 
       expect(data['user_id']).to eq(user.id)
@@ -22,13 +26,14 @@ RSpec.describe Api::V1::Users::ProfilesController, type: :controller do
   end
 
   context 'when create' do
+    include ApiDoc::V1::Posts::Update
     let(:params) { { profile: { about: 'about' } } }
 
     before { patch :update, params: params }
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'is eql params' do
+    it 'is eql params', :dox do
       data = JSON.parse(response.body)
 
       expect(data['about']).to eq(params[:profile][:about])
