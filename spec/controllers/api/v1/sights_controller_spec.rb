@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::SightsController, type: :controller do
+  include ApiDoc::V1::Sights::Api
+
   let(:user) { create :user }
   let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
   let(:country) { create :country }
@@ -11,13 +13,15 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   end
 
   context 'when index' do
+    include ApiDoc::V1::Sights::Index
+
     let!(:sights) { create_list :sight, 5, city: city }
 
     before { get :index }
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'is eql sights' do
+    it 'is eql sights', :dox do
       data = JSON.parse(response.body)
 
       data.each do |sight|
@@ -27,13 +31,15 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   end
 
   context 'when create ' do
+    include ApiDoc::V1::Sights::Create
+
     let(:sight_params) { { city_id: city.id, name: 'Sight', description: 'description sight' } }
 
     before { post :create, params: { sight: sight_params } }
 
     it { expect(response).to have_http_status(:created) }
 
-    it 'is eql params' do
+    it 'is eql params', :dox do
       data = JSON.parse(response.body)
 
       expect(data['name']).to eq(sight_params[:name])
@@ -43,13 +49,15 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   end
 
   context 'when show' do
+    include ApiDoc::V1::Sights::Show
+
     let!(:sight) { create :sight, city: city }
 
     before { get :show, params: { id: sight.id } }
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'is eql sight' do
+    it 'is eql sight', :dox do
       data = JSON.parse(response.body)
 
       expect(data['id']).to eq(sight.id)
@@ -57,10 +65,12 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   end
 
   context 'when destroy' do
+    include ApiDoc::V1::Sights::Destroy
+
     let!(:sight) { create :sight, city: city }
 
     context 'when change count' do
-      it 'changes count' do
+      it 'changes count', :dox do
         expect { delete :destroy, params: { id: sight.id } }.to change(Sight, :count).by(-1)
       end
     end
@@ -73,6 +83,8 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   end
 
   context 'when update' do
+    include ApiDoc::V1::Sights::Update
+
     let(:update_params) { { name: 'NewSightName' } }
     let!(:sight) { create :sight, city: city }
 
@@ -80,7 +92,7 @@ RSpec.describe Api::V1::SightsController, type: :controller do
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'is eql new name' do
+    it 'is eql new name', :dox do
       data = JSON.parse(response.body)
 
       expect(data['name']).to eq(update_params[:name])
@@ -88,9 +100,11 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   end
 
   context 'when like' do
+    include ApiDoc::V1::Sights::Like
+
     let(:sight) { create :sight }
 
-    it 'change sight count' do
+    it 'change sight count', :dox do
       expect do
         patch :like, params: { id: sight.id }
       end.to change { user.liked_sights.count }.by(1)
@@ -98,9 +112,11 @@ RSpec.describe Api::V1::SightsController, type: :controller do
   end
 
   context 'when dislike' do
+    include ApiDoc::V1::Sights::Dislike
+
     let(:sight) { create :sight }
 
-    it 'change sight count' do
+    it 'change sight count', :dox do
       expect do
         patch :dislike, params: { id: sight.id }
       end.to change { user.disliked_sights.count }.by(1)

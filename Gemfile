@@ -38,6 +38,7 @@ group :test do
   gem 'capybara'
   gem 'chromedriver-helper'
   gem 'database_cleaner'
+  gem 'dox', require: false
   gem 'json_spec'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'

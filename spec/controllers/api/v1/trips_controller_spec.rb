@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::TripsController, type: :controller do
+  include ApiDoc::V1::Trips::Api
+
   let(:user) { create :user }
   let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
 
@@ -9,13 +11,15 @@ RSpec.describe Api::V1::TripsController, type: :controller do
   end
 
   context 'when index' do
+    include ApiDoc::V1::Trips::Index
+
     let!(:trips) { create_list :trip, 5 }
 
     before { get :index }
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'must be eql in length' do
+    it 'must be eql in length', :dox do
       data = JSON.parse(response.body)
 
       expect(data.length).to eq(trips.length)
@@ -31,6 +35,8 @@ RSpec.describe Api::V1::TripsController, type: :controller do
   end
 
   context 'when create' do
+    include ApiDoc::V1::Trips::Create
+
     let(:city) { create :city }
 
     let(:trip_params) do
@@ -49,7 +55,7 @@ RSpec.describe Api::V1::TripsController, type: :controller do
 
     it { expect(response).to have_http_status(:created) }
 
-    it 'is eql to params' do
+    it 'is eql to params', :dox do
       data = JSON.parse(response.body)
 
       expect(data['user_id'].to_i).to eq(user.id)
@@ -61,13 +67,15 @@ RSpec.describe Api::V1::TripsController, type: :controller do
   end
 
   context 'when show' do
+    include ApiDoc::V1::Trips::Show
+
     let(:trip) { create :trip }
 
     before { get :show, params: { id: trip.id } }
 
     it { expect(response).to have_http_status(:ok) }
 
-    it 'must be eql to trip' do
+    it 'must be eql to trip', :dox do
       data = JSON.parse(response.body)
 
       expect(data['id']).to eq(trip.id)
@@ -80,26 +88,34 @@ RSpec.describe Api::V1::TripsController, type: :controller do
   end
 
   context 'when destroy' do
+    include ApiDoc::V1::Trips::Destroy
+
     let!(:trip) { create :trip }
 
-    it 'change trip count' do
+    it 'change trip count', :dox do
       expect { delete :destroy, params: { id: trip.id } }.to change(Trip, :count).by(-1)
     end
   end
 
   context 'when update' do
+    include ApiDoc::V1::Trips::Update
+
     let!(:trip) { create :trip, user: user }
 
     before { patch :update, params: { id: trip.id, trip: { description: 'new_description' } } }
 
-    it { expect(response).to have_http_status(:ok) }
+    it 'response', :dox do
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   context 'when join' do
+    include ApiDoc::V1::Trips::Join
+
     let(:trip) { create :trip }
 
     context 'when not member yet' do
-      it 'change membership count' do
+      it 'change membership count', :dox do
         expect { patch :join, params: { id: trip.id } }.to change(Membership, :count).by(1)
       end
     end
