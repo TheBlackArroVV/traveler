@@ -22,7 +22,9 @@ class ProfileForm
   private
 
   def persist!
-    @profile = Profile.find_by(user_id: user_id)
-    @profile.update(user_id: user_id, about: about, avatar: avatar)
+    ApplicationRecord.transaction do
+      @profile = Profile.find_by(user_id: user_id)
+      @profile.update(user_id: user_id, about: about, avatar: avatar)
+    end
   end
 end
