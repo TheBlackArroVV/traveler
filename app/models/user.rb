@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   has_one :profile, dependent: :destroy
   has_many :posts
+  has_many :comments
 
   validates :phone_number, numericality: { only_integer: true }, allow_blank: true
 

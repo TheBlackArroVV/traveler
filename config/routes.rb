@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       end
 
       post :user_token, to: 'users/user_token#create'
+
+      resources :comments, except: %i[show update]
     end
   end
 end
