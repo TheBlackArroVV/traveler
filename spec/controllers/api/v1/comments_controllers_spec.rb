@@ -31,7 +31,7 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
 
     it 'change comments_count' do
       expect do
-         post :create, params: { post_id: blog_post.id, comment: { body: 'new_comment' } }
+        post :create, params: { post_id: blog_post.id, comment: { body: 'new_comment' } }
       end.to change(Comment, :count).by(1)
     end
   end
