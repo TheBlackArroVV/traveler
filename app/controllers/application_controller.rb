@@ -5,4 +5,12 @@ class ApplicationController < ActionController::API
   include Knock::Authenticable
 
   before_action :authenticate_user
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  private
+
+  def user_not_authorized
+    render json: { errors: { text: "user not authorized" } }, status: 401
+  end
 end
