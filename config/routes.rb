@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :admin do
       resources :cities, except: :show
-
       resources :countries, except: :show
+      resources :users, only: :destroy
     end
 
     namespace :v1 do
