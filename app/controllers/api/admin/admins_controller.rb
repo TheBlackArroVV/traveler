@@ -6,7 +6,7 @@ module Api
       private
 
       def user_admin?
-        render json: { errors: { text: 'nothing there' } }, status: 404
+        render json: { errors: { text: 'nothing there' } }, status: 404 unless current_user.admin?
       end
     end
   end

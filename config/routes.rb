@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
+    namespace :admin do
+      resources :cities, except: :show
+    end
+
     namespace :v1 do
       devise_for :users
       resources :posts
