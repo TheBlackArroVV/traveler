@@ -4,6 +4,12 @@ Rails.application.routes.draw do
       resources :cities, except: :show
       resources :countries, except: :show
       resources :users, only: :destroy
+      resources :comments, only: %i[index destroy]
+      resources :messages, only: %i[index destroy]
+      resources :posts, only: %i[index destroy]
+      resources :sights, only: %i[index destroy]
+      resources :topics, only: %i[index destroy]
+      resources :trips, only: %i[index destroy]
     end
 
     namespace :v1 do
