@@ -13,7 +13,7 @@ module Api
         if topic.save
           render json: topic, status: 201
         else
-          render json: topic.errors
+          render json: topic.errors, status: 422
         end
       end
 

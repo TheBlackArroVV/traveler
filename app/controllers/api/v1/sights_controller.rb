@@ -26,7 +26,7 @@ module Api
       def update
         return render json: @sight if @sight.update(sight_params)
 
-        render json: @sight.errors
+        render json: @sight.errors, status: 422
       end
 
       def destroy
