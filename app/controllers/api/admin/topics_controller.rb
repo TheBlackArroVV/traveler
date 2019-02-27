@@ -1,5 +1,5 @@
 module Api
-  module Admins
+  module Admin
     class TopicsController < AdminsController
       def index
         render json: Topic.all
