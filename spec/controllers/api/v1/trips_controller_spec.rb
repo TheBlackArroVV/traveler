@@ -26,10 +26,10 @@ RSpec.describe Api::V1::TripsController, type: :controller do
     end
 
     it 'must be eql' do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
       data.each_with_index do |trip, index|
-        expect(trip['id'].to_i).to eq(trips[index].id)
+        expect(trip[:id].to_i).to eq(trips[index].id)
       end
     end
   end
@@ -56,13 +56,13 @@ RSpec.describe Api::V1::TripsController, type: :controller do
     it { expect(response).to have_http_status(:created) }
 
     it 'is eql to params', :dox do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data['user_id'].to_i).to eq(user.id)
-      expect(data['budget'].to_i).to eq(trip_params[:trip][:budget])
-      expect(data['city_id'].to_i).to eq(trip_params[:trip][:city_id])
-      expect(data['description']).to eq(trip_params[:trip][:description])
-      expect(data['max_members'].to_i).to eq(trip_params[:trip][:max_members])
+      expect(data[:user_id].to_i).to eq(user.id)
+      expect(data[:budget].to_i).to eq(trip_params[:trip][:budget])
+      expect(data[:city_id].to_i).to eq(trip_params[:trip][:city_id])
+      expect(data[:description]).to eq(trip_params[:trip][:description])
+      expect(data[:max_members].to_i).to eq(trip_params[:trip][:max_members])
     end
   end
 
@@ -76,14 +76,14 @@ RSpec.describe Api::V1::TripsController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'must be eql to trip', :dox do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data['id']).to eq(trip.id)
-      expect(data['budget']).to eq(trip.budget)
-      expect(data['user_id']).to eq(trip.user_id)
-      expect(data['city_id']).to eq(trip.city_id)
-      expect(data['max_members']).to eq(trip.max_members)
-      expect(data['description']).to eq(trip.description)
+      expect(data[:id]).to eq(trip.id)
+      expect(data[:budget]).to eq(trip.budget)
+      expect(data[:user_id]).to eq(trip.user_id)
+      expect(data[:city_id]).to eq(trip.city_id)
+      expect(data[:max_members]).to eq(trip.max_members)
+      expect(data[:description]).to eq(trip.description)
     end
   end
 
