@@ -21,10 +21,10 @@ RSpec.describe Api::V1::MessagesController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'is eql messages' do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
       data.each do |message|
-        expect(messages.pluck(:id)).to include(message['id'])
+        expect(messages.pluck(:id)).to include(message[:id])
       end
     end
   end

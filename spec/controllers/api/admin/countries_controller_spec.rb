@@ -14,10 +14,10 @@ RSpec.describe Api::Admin::CountriesController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'must be eql' do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
       data.each do |country|
-        expect(countries.pluck(:id)).to include(country['id'])
+        expect(countries.pluck(:id)).to include(country[:id])
       end
     end
   end

@@ -13,10 +13,10 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'should be the same' do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      data.each do |c|
-        expect(comments.pluck(:id)).to include(c['id'])
+      data.each do |comment|
+        expect(comments.pluck(:id)).to include(comment[:id])
       end
     end
   end

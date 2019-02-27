@@ -20,10 +20,10 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'is eql topics', :dox do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
       data.each do |topic|
-        expect(topics.pluck(:id)).to include(topic['id'])
+        expect(topics.pluck(:id)).to include(topic[:id])
       end
     end
   end
@@ -38,9 +38,9 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'is eql to topic', :dox do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data['id']).to eq(topic.id)
+      expect(data[:id]).to eq(topic.id)
     end
   end
 
@@ -74,10 +74,10 @@ RSpec.describe Api::V1::TopicsController, type: :controller do
     it { expect(response).to have_http_status(:created) }
 
     it 'is eql topic_params', :dox do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data['title']).to eq(topic_params[:title])
-      expect(data['description']).to eq(topic_params[:description])
+      expect(data[:title]).to eq(topic_params[:title])
+      expect(data[:description]).to eq(topic_params[:description])
     end
   end
 end

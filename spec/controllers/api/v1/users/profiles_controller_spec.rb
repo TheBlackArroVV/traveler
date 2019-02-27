@@ -18,10 +18,10 @@ RSpec.describe Api::V1::Users::ProfilesController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'is eql user profile', :dox do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data['user_id']).to eq(user.id)
-      expect(data['about']).to eq(user.profile.about)
+      expect(data[:user_id]).to eq(user.id)
+      expect(data[:about]).to eq(user.profile.about)
     end
   end
 
@@ -34,9 +34,9 @@ RSpec.describe Api::V1::Users::ProfilesController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'is eql params', :dox do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data['about']).to eq(params[:profile][:about])
+      expect(data[:about]).to eq(params[:profile][:about])
     end
   end
 end
