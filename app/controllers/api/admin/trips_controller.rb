@@ -1,5 +1,5 @@
 module Api
-  module Admins
+  module Admin
     class TripsController < AdminsController
       def index
         render json: Trip.all
