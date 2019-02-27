@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe Api::Admin::PostsController, type: :controller do
+RSpec.describe Api::Admin::MessagesController, type: :controller do
   let(:user) { create :user, admin: true }
   let(:jwt) { Knock::AuthToken.new(payload: { sub: user.id }).token }
 
   before { request.headers['Authorization'] = "Bearer #{jwt}" }
 
   context 'when index' do
-    let!(:posts) { create_list :post, 5 }
+    let!(:messages) { create_list :message, 5 }
 
     before { get :index }
 
@@ -16,16 +16,16 @@ RSpec.describe Api::Admin::PostsController, type: :controller do
     it 'must be eql' do
       data = JSON.parse(response.body, symbolize_names: true)
 
-      data.each do |post|
-        expect(posts.pluck(:id)).to include(post[:id])
+      data.each do |message|
+        expect(messages.pluck(:id)).to include(message[:id])
       end
     end
   end
 
   context 'destroy' do
-    let(:post) { create :post }
+    let(:message) { create :message }
 
-    before { delete :destroy, params: { id: post.id } }
+    before { delete :destroy, params: { id: message.id } }
 
     it { expect(response).to have_http_status(:ok) }
   end
