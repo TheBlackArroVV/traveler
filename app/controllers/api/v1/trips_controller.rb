@@ -12,7 +12,7 @@ module Api
         if @service.create(trip_params)
           render json: @service.trip, status: 201
         else
-          render json: @service.errors
+          render json: @service.errors, status: 422
         end
       end
 
@@ -24,7 +24,7 @@ module Api
         if @service.join
           render json: {}
         else
-          render json: @service.errors
+          render json: @service.errors, status: 422
         end
       end
 
@@ -34,7 +34,7 @@ module Api
         if @trip.update(trip_params)
           render json: @trip
         else
-          render json: @trip.errors
+          render json: @trip.errors, status: 422
         end
       end
 
