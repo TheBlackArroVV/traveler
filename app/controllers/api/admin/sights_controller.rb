@@ -1,5 +1,5 @@
 module Api
-  module Admins
+  module Admin
     class SightsController < AdminsController
       def index
         render json: Sight.all

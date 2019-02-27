@@ -7,6 +7,8 @@ module Api
 
       def destroy
         Trip.find(params[:id]).destroy
+
+        render json: {}
       end
     end
   end
