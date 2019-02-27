@@ -14,10 +14,10 @@ RSpec.describe Api::Admin::CitiesController, type: :controller do
     it { expect(response).to have_http_status(:ok) }
 
     it 'must be eql' do
-      data = JSON.parse(response.body)
+      data = JSON.parse(response.body, symbolize_names: true)
 
       data.each do |city|
-        expect(cities.pluck(:id)).to include(city['id'])
+        expect(cities.pluck(:id)).to include(city[:id])
       end
     end
   end
