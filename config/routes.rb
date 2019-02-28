@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :cities, except: :show
       resources :countries, except: :show
-      resources :users, only: :destroy
+      resources :users, only: %i[index destroy]
       resources :comments, only: %i[index destroy]
       resources :messages, only: %i[index destroy]
       resources :posts, only: %i[index destroy]
