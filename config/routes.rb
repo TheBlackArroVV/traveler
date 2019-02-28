@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :admin do
-      resources :cities, except: :show
-      resources :countries, except: :show
+      resources :cities
+      resources :countries
       resources :users, only: %i[index destroy]
       resources :comments, only: %i[index destroy]
       resources :messages, only: %i[index destroy]

@@ -1,10 +1,14 @@
 module Api
   module Admin
     class CitiesController < AdminsController
-      before_action :set_city, only: %i[update destroy]
+      before_action :set_city, except: %i[index create]
 
       def index
         render json: City.all
+      end
+
+      def show
+        render json: @city
       end
 
       def create

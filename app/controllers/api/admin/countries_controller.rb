@@ -1,10 +1,14 @@
 module Api
   module Admin
     class CountriesController < AdminsController
-      before_action :set_country, only: %i[update destroy]
+      before_action :set_country, except: %i[index create]
 
       def index
         render json: Country.all
+      end
+
+      def show
+        render json: @country
       end
 
       def create
