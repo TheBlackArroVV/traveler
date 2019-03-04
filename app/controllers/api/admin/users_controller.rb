@@ -1,7 +1,7 @@
 module Api
   module Admin
     class UsersController < AdminsController
-      before_action :set_user, only: :index
+      before_action :set_user, except: :index
 
       def index
         render json: User.all
